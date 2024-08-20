@@ -1,0 +1,7 @@
+
+services:
+  app:
+    image: gslnhung/nginx:1.0
+    ports:
+      - 80:80
+  
