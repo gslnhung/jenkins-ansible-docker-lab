@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-    DOCKER_IMAGE = "gslnhung/nginx:latest"
+    DOCKER_IMAGE = "gslnhung/nginx"
   }
 
   stages {
