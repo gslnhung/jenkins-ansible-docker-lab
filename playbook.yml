@@ -3,21 +3,44 @@
   remote_user: ubuntu
   become: yes
   tasks:
-  - name: Install Docker
+  - name: Install required packages
     apt:
       name:
-        - docker
-        - docker-compose
+        - ca-certificates
+        - curl
       state: present
+
+  - name: Add Docker GPG apt Key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Add Docker Repository
+    apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable
+      state: present
+
+  - name: Update apt and install Docker
+    apt:
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-compose-plugin
+      state: latest
+      update_cache: true
+      
   - name: Login DockerHub
     shell: docker login -u "{{DOCKER_USERNAME}}" -p "{{DOCKER_PASSWORD}}"
+
   - name: Copy file
     copy:
       src: docker-compose.yaml
       dest: /home/ubuntu/
-  - name: Restart docker-compose
+
+  - name: Restart Docker Compose
     shell: |
-      docker-compose stop
-      docker-compose rm -f
-      docker-compose pull
-      docker-compose up -d
+      docker compose stop
+      docker compose rm -f
+      docker compose pull
+      docker compose up -d
