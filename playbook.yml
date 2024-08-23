@@ -36,8 +36,8 @@
 
   - name: Copy file
     copy:
-      src: docker-compose.yaml
-      dest: /home/ubuntu/
+      src: docker-compose.yml
+      dest: /home/ubuntu/jenkins-lab/
 
   - name: Restart Docker Compose
     shell: |
