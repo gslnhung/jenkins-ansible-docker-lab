@@ -41,6 +41,7 @@
 
   - name: Restart Docker Compose
     shell: |
+      cd /home/ubuntu/jenkins-lab/
       docker compose stop
       docker compose rm -f
       docker compose pull
